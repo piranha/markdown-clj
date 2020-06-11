@@ -3,8 +3,7 @@
   :url "https://github.com/yogthos/markdown-clj"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [clj-commons/clj-yaml "0.7.0"]]
+  :dependencies [[org.clojure/clojure "1.9.0"]]
   :clojurescript? true
   :jar-exclusions [#"\.swp|\.swo|\.DS_Store"]
   :test-selectors {:default   (complement :benchmark)

@@ -28,8 +28,7 @@
               escape-inhibit-separator
               inhibit
               make-heading
-              dashes]]
-            #?(:clj [clj-yaml.core :as yaml])))
+              dashes]]))
 
 (declare ^:dynamic *formatter*)
 
@@ -355,8 +354,7 @@
           ;; take lines until we see the closing ---
           (take-while (comp not (partial re-matches #"---\s*")))
           ;; join together and parse
-          (string/join "\n")
-          yaml/parse-string)
+          (string/join "\n"))
      :cljs
      (throw (js/Error. "YAML is unsupported in ClojureScript mode"))))
 
