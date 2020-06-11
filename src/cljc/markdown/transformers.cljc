@@ -104,10 +104,9 @@
 (defn autoemail-transformer [text state]
   (let [left-pad (fn [s]
                    (cond->> s
-                            (= 1 (count s)) (str "0")))
-        encoder  (if (:clojurescript state)
-                   (fn [c] (str "&#x" (-> c (.charCodeAt 0) (.toString 16) left-pad) ";"))
-                   (fn [c] (*formatter* "&#x%02x;" (int c))))]
+                     (= 1 (count s)) (str "0")))
+        encoder  #?(:cljs (fn [c] (str "&#x" (-> c (.charCodeAt 0) (.toString 16) left-pad) ";"))
+                    :clj  (fn [c] (*formatter* "&#x%02x;" (int c))))]
     [(if (or (:code state) (:codeblock state))
        text
        (string/replace
