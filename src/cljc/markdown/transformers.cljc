@@ -26,8 +26,7 @@
               escape-inhibit-separator
               inhibit
               make-heading
-              dashes]]
-            #?(:clj [clj-yaml.core :as yaml])))
+              dashes]]))
 
 (def ^:dynamic *formatter*)
 
@@ -372,23 +371,6 @@
         (reduced [(flatten-metadata acc) (count acc)])))
     [] lines-seq))
 
-(defn parse-yaml-metadata-headers
-  [lines-seq]
-  #?(:clj
-     (let [yaml-lines (->> lines-seq
-                           ;; leave off opening ---
-                           (drop 1)
-                           ;; take lines until we see the closing ---
-                           (take-while (comp not (partial re-matches #"---\s*"))))]
-       [(->> yaml-lines
-             ;; join together and parse
-             (string/join "\n")
-             yaml/parse-string)
-        ;; number of lines consumed must consider opening and closing ---
-        (+ (count yaml-lines) 2)])
-     :cljs
-     (throw (js/Error. "YAML is unsupported in ClojureScript mode"))))
-
 (defn parse-edn-metadata-headers
   [lines-seq]
   ;; take sequences until you hit an empty line
@@ -403,16 +385,13 @@
 
 (defn parse-metadata-headers
   "Given a sequence of lines from a markdown document, attempt to parse a
-  metadata header if it exists. Accepts wiki, yaml, and edn formats.
+  metadata header if it exists. Accepts wiki and edn formats.
    
   Returns the parsed headers number of lines the metadata spans"
   [lines-seq]
   {:pre [(sequential? lines-seq)
          (every? string? lines-seq)]}
   (cond
-    ;; Treat as yaml
-    (re-matches #"---\s*" (first lines-seq))
-    (parse-yaml-metadata-headers lines-seq)
     ;; Treat as wiki
     (re-matches #"\w+: .*" (first lines-seq))
     (parse-wiki-metadata-headers lines-seq)

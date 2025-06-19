@@ -1,10 +1,9 @@
-(defproject markdown-clj "1.12.3"
+(defproject net.solovyov/markdown-clj "1.12.3-1"
   :description "Markdown parser"
   :url "https://github.com/yogthos/markdown-clj"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.10.3"]
-                 [clj-commons/clj-yaml "1.0.29"]]
+  :dependencies [[org.clojure/clojure "1.10.3"]]
   :clojurescript? true
   :jar-exclusions [#"\.swp|\.swo|\.DS_Store"]
   :test-selectors {:default   (complement :benchmark)
